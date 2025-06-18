@@ -41,6 +41,7 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
+  
   return (
     <>
       <Navbar />
