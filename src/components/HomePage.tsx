@@ -8,6 +8,8 @@ import FAQSection from "./FAQSection";
 import ConnectManageBanner from "./ConnectManageBanner";
 import ContactForm from "./ContactForm";
 import Footer from "./Footer";
+import EmpoweringIdentity from "./EmpoweringIdentity";
+import RoleBasedFeatures from "./RoleBasedFeatures";
 
 const slides = [
   {
@@ -47,9 +49,7 @@ export default function HomePage() {
 
   return (
     <>
-      <Navbar />
       <div className="relative h-[80vh] w-full overflow-hidden">
-        {/* Background Images */}
         {slides.map((slide, index) => (
           <div key={index} className="absolute inset-0 w-full h-full">
             <Image
@@ -64,7 +64,6 @@ export default function HomePage() {
           </div>
         ))}
 
-        {/* Overlay Content */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 px-6 text-white">
           <div className="text-center max-w-3xl">
             {slides[current].banner && (
@@ -188,129 +187,14 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="bg-white py-20 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-12">
-          <div className="w-full lg:w-1/2 text-center lg:text-left">
-            <span className="inline-block bg-red-100 text-red-700 text-xs font-semibold px-4 py-1 rounded-full mb-4">
-              Agents. Schools. Teachers. Students
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-snug">
-              Empowering Identity. <br /> Enhancing Access.
-            </h2>
-            <p className="text-gray-700 mb-6 text-sm md:text-base">
-              The Abia State Social Security Identification Number (ABSSIN)
-              Portal is your official gateway to personal and business identity
-              registration in Abia State. Whether you're an individual, business
-              owner, dependent, agent, or government official, the ABSSIN Portal
-              provides easy access to secure digital identity services—all in
-              one place.
-            </p>
-            <button className="bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded text-sm">
-              Explore More
-            </button>
-          </div>
-
-          <div className="w-full lg:w-1/2 flex justify-center">
-            <div className="w-[320px] md:w-[400px] lg:w-[480px] rounded-xl overflow-hidden shadow-2xl">
-              <img
-                src="/images/education.png"
-                alt="Education and Identity"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="bg-white py-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <span className="inline-block bg-red-100 text-red-700 text-xs font-semibold px-4 py-1 rounded-full mb-2">
-            Features
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Features That Work for Everyone
-          </h2>
-          <p className="text-gray-600 mb-12 text-sm md:text-base">
-            No matter your role, the ABSSIN Portal is built to make your
-            workflow smarter, faster, and more organized.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            {[
-              {
-                title: "For Agents",
-                description:
-                  "Easily add schools, create teacher profiles, and manage student data.",
-                icon: "/images/staff.png",
-              },
-              {
-                title: "For Staff",
-                description: "Seamlessly add and manage student records.",
-                icon: "/images/staff.png",
-              },
-              {
-                title: "For Admin",
-                description:
-                  "Gain complete oversight of schools, teachers, and students.",
-                icon: "/images/admin.png",
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className={`flex flex-col items-center text-center px-6 ${
-                  index !== 2
-                    ? "md:border-r md:border-dashed md:border-red-300"
-                    : ""
-                }`}
-              >
-                <img
-                  src={item.icon}
-                  alt={item.title}
-                  className="w-16 h-16 mb-4"
-                />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+ 
+      <EmpoweringIdentity />
+      <RoleBasedFeatures />
       <FAQSection />
-      <section className="py-16 px-4">
-        <div className="relative max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-lg h-[450px]">
-          <Image
-            src="/images/connect-manage.jpg"
-            alt="Connect and manage"
-            fill
-            className="object-cover"
-          />
 
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-6 text-white">
-            <div className="text-center max-w-2xl">
-              <span className="inline-block bg-white text-red-700 text-xs font-semibold px-4 py-1 rounded-full mb-4">
-                All in just a few clicks
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Connect &amp; Manage
-              </h2>
-              <p className="text-sm md:text-base mb-6">
-                Easily register new schools with comprehensive details, create
-                and manage teacher profiles with subject specializations, and
-                assign teachers to specific classes or departments—all in just a
-                few clicks. Keep track of student records including personal
-                information, academic history, class enrollment, and guardian
-                contacts, in real time.
-              </p>
-              <button className="bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded text-sm">
-                Get Started Now
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ConnectManageBanner />
       <ContactForm />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

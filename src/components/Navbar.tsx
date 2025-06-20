@@ -1,25 +1,53 @@
-'use client';
+"use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const pathname = usePathname();
+
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "About ABSSIN", href: "/about" },
+    { label: "FAQs", href: "/faqs" },
+    { label: "Contact Us", href: "/#contact" },
+  ];
+
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-white shadow-md">
-      <div className="text-xl font-bold text-red-700">ABSSIN</div>
-      <ul className="flex gap-6 text-sm font-medium text-gray-700">
-        <li><Link href="/">Home</Link></li>
-        <li><Link href="#">About ABSSIN</Link></li>
-        <li><Link href="#">FAQs</Link></li>
-        <li><Link href="#">Contact Us</Link></li>
-      </ul>
-      <div className="flex gap-2">
-        <Link href="/login">
-          <button className="border border-red-700 text-red-700 px-4 py-1 rounded hover:bg-red-100">Login</button>
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+     
+        <Link href="/" className="flex items-center gap-2">
+          <Image src="/images/abssinlogo.png" alt="ABSSIN Logo" width={100} height={100} />
         </Link>
-        <Link href="/register">
-          <button className="bg-red-700 text-white px-4 py-1 rounded hover:bg-red-800">Register</button>
-        </Link>
+
+
+        <nav className="flex gap-6 text-sm text-gray-800">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`px-2 py-1 rounded ${
+                pathname === link.href
+                  ? "bg-red-100 text-red-700 font-semibold"
+                  : "hover:text-red-700"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex gap-2">
+          <button className="border border-red-700 text-red-700 px-4 py-1 rounded hover:bg-red-100 text-sm">
+            Login
+          </button>
+          <button className="bg-red-700 text-white px-4 py-1 rounded hover:bg-red-800 text-sm">
+            Register
+          </button>
+        </div>
       </div>
-    </nav>
+    </header>
   );
 }

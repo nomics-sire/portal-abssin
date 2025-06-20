@@ -1,15 +1,15 @@
+
 "use client";
 
+import React from "react";
 import Image from "next/image";
-import { FC } from "react";
 
-const ConnectManageBanner: FC = () => {
+const ConnectManageBanner: React.FC = () => {
   return (
     <section className="py-16 px-4">
-      <div className="relative max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-lg">
-
+      <div className="relative max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-lg h-[450px]">
         <Image
-          src="/images/connect-manage.jpg" 
+          src="/images/connect-manage.jpg"
           alt="Connect and manage"
           fill
           className="object-cover"
@@ -20,12 +20,16 @@ const ConnectManageBanner: FC = () => {
             <span className="inline-block bg-white text-red-700 text-xs font-semibold px-4 py-1 rounded-full mb-4">
               All in just a few clicks
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Connect & Manage</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Connect &amp; Manage
+            </h2>
             <p className="text-sm md:text-base mb-6">
-              Easily register new schools with comprehensive details, create and manage teacher
-              profiles with subject specializations, and assign teachers to specific classes or
-              departments—all in just a few clicks. Keep track of student records including personal
-              information, academic history, class enrollment, and guardian contacts, in real time.
+              Easily register new schools with comprehensive details, create
+              and manage teacher profiles with subject specializations, and
+              assign teachers to specific classes or departments—all in just a
+              few clicks. Keep track of student records including personal
+              information, academic history, class enrollment, and guardian
+              contacts, in real time.
             </p>
             <button className="bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded text-sm">
               Get Started Now
