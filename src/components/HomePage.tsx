@@ -2,12 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Navbar from "./Navbar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import FAQSection from "./FAQSection";
 import ConnectManageBanner from "./ConnectManageBanner";
 import ContactForm from "./ContactForm";
-import Footer from "./Footer";
 import EmpoweringIdentity from "./EmpoweringIdentity";
 import RoleBasedFeatures from "./RoleBasedFeatures";
 

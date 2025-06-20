@@ -11,7 +11,7 @@ export default function Navbar() {
     { label: "Home", href: "/" },
     { label: "About ABSSIN", href: "/about" },
     { label: "FAQs", href: "/faqs" },
-    { label: "Contact Us", href: "/#contact" },
+    { label: "Contact Us", href: "/contact-us" },
   ];
 
   return (
