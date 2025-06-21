@@ -17,11 +17,14 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-     
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/images/abssinlogo.png" alt="ABSSIN Logo" width={100} height={100} />
+          <Image
+            src="/images/abssinlogo.png"
+            alt="ABSSIN Logo"
+            width={100}
+            height={100}
+          />
         </Link>
-
 
         <nav className="flex gap-6 text-sm text-gray-800">
           {navLinks.map((link) => (
@@ -40,9 +43,11 @@ export default function Navbar() {
         </nav>
 
         <div className="flex gap-2">
-          <button className="border border-red-700 text-red-700 px-4 py-1 rounded hover:bg-red-100 text-sm">
-            Login
-          </button>
+          <Link href="/login">
+            <button className="border border-red-700 text-red-700 px-4 py-2 rounded hover:bg-red-700 hover:text-white text-sm">
+              Login
+            </button>
+          </Link>
           <button className="bg-red-700 text-white px-4 py-1 rounded hover:bg-red-800 text-sm">
             Register
           </button>

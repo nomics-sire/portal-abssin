@@ -1,5 +1,6 @@
+import AboutABSSIN from "@/components/AboutABSSIN";
 import React from "react";
-import AboutABSSIN from "../../components/AboutABSSIN";
+
 
 
 const AboutPage = () => {
