@@ -3,6 +3,8 @@ import React from 'react';
 
 const ContactForm: React.FC = () => {
   return (
+
+    
     <div className="flex flex-col md:flex-row items-start justify-between gap-10 p-10">
       <div className="w-full md:w-2/3 bg-gray-100 p-6 rounded-lg shadow">
         <h2 className="text-3xl font-bold mb-4 text-gray-900">Have Questions? Reach Out to Us, And We’ll Be Happy to Help</h2>
@@ -71,6 +73,7 @@ const ContactForm: React.FC = () => {
         </div>
       </div>
     </div>
+   
   );
 };
 
