@@ -1,4 +1,4 @@
-import AboutABSSIN from "@/components/AboutABSSIN";
+import AboutABSSIN from "@/components/home/AboutABSSIN";
 import React from "react";
 
 

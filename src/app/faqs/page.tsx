@@ -1,8 +1,8 @@
 
 
 // import FAQS from "@/components/faqs";
-import FrequentlyAsked from "../../components/FrequentlyAsked";
-import AboutABSSIN from "../../components/AboutABSSIN";
+import FrequentlyAsked from "../../components/home/FrequentlyAsked";
+
 import React from "react";
 
 

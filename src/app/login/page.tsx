@@ -1,5 +1,5 @@
-import ContactUs from "@/components/ContactUs";
-import Login from "@/components/Login";
+
+import Login from "@/components/home/Login";
 import React from "react";
 
 
