@@ -2,9 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import EmpoweringIdentity from "./EmpoweringIdentity";
-import RoleBasedFeatures from "./RoleBasedFeatures";
-import FAQSection from "./FAQSection";
 import ContactForm from "./ContactForm";
 import Footer from "./Footer";
 
@@ -33,7 +30,7 @@ const ContactUs: React.FC = () => {
       <section className="py-12 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            {/* Phone */}
+      
             <div className="bg-red-100 rounded-lg p-6 shadow-md flex flex-col items-center">
               <svg
                 className="w-6 h-6 text-red-700 mb-2"
@@ -45,7 +42,7 @@ const ContactUs: React.FC = () => {
               <p className="text-gray-800">+1 (333) 000-0000</p>
             </div>
 
-            {/* Address */}
+ 
             <div className="bg-red-700 text-white rounded-lg p-6 shadow-md flex flex-col items-center">
               <svg
                 className="w-6 h-6 mb-2"
@@ -60,7 +57,6 @@ const ContactUs: React.FC = () => {
               </p>
             </div>
 
-            {/* Email */}
             <div className="bg-red-100 rounded-lg p-6 shadow-md flex flex-col items-center">
               <svg
                 className="w-6 h-6 text-red-700 mb-2"
