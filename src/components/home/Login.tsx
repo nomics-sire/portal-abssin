@@ -5,7 +5,7 @@ import Image from 'next/image';
 export default function Login() {
   return (
     <div className="flex h-screen">
-      {/* Left side (image) */}
+
       <div className="hidden md:flex w-1/2 relative">
         <Image
           src="/images/login-left.png"
@@ -15,7 +15,7 @@ export default function Login() {
         />
       </div>
 
-      {/* Right side (form) */}
+
       <div className="w-full md:w-1/2 flex items-center justify-center px-6">
         <div className="max-w-sm w-full">
           <Image
@@ -32,9 +32,9 @@ export default function Login() {
 
           <form className="space-y-4">
             <div>
-              <label className="text-sm text-gray-700 font-medium">Email</label>
+              <label className="text-sm text-gray-700 font-medium">Abssin</label>
               <input
-                type="email"
+                type="text"
                 placeholder="Enter your email"
                 className="w-full border border-gray-300 text-gray-800 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-1 focus:ring-red-700"
                 required

@@ -9,6 +9,7 @@ import ContactForm from "./ContactForm";
 import EmpoweringIdentity from "./EmpoweringIdentity";
 import RoleBasedFeatures from "./RoleBasedFeatures";
 import Footer from "./Footer";
+import Link from "next/link";
 
 const slides = [
   {
@@ -36,7 +37,7 @@ const slides = [
 
 export default function HomePage() {
   const [current, setCurrent] = useState(0);
-
+ let href = "";
   const goToPrev = () =>
     setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   const goToNext = () => setCurrent((prev) => (prev + 1) % slides.length);
@@ -93,7 +94,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Arrows */}
+
         <button
           onClick={goToPrev}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 p-2 rounded-full text-white"
@@ -107,7 +108,7 @@ export default function HomePage() {
           <ChevronRight />
         </button>
 
-        {/* Indicators */}
+    
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
           {slides.map((_, i) => (
             <div
@@ -160,12 +161,6 @@ export default function HomePage() {
                   "Quickly download or print your official ABSSIN slip by entering your ABSSIN number. The slip serves as proof of registration for verification and official use.",
                 icon: "/images/features/download-slip.png",
               },
-              // {
-              //   title: "Download Slip",
-              //   description:
-              //     "Enter your ABSSIN to instantly download a digital copy of your identification slip for printing or record-keeping.",
-              //   icon: "/images/features/download-slip.png",
-              // },
             ].map((feature, index) => (
               <div
                 key={index}
@@ -187,9 +182,36 @@ export default function HomePage() {
                 <p className="text-sm text-gray-800 mb-4">
                   {feature.description}
                 </p>
-                <button className="mt-auto px-4 py-2 border w-32 border-gray-300 rounded hover:bg-gray-100 text-sm text-gray-800">
-                  Get Started
-                </button>
+                {(() => {
+                 
+                  switch (feature.title) {
+                    case "Create Individual ABSSIN":
+                      href = "/individual/create";
+                      break;
+                    case "Create Dependent ABSSIN":
+                      href = "/dependent/create";
+                      break;
+                    case "Create Business ABSSIN":
+                      href = "/business/create";
+                      break;
+                    case "Retrieve ABSSIN":
+                      href = "/abssin/retrieve";
+                      break;
+                    case "Download ABSSIN Slip":
+                      href = "/abssin/download";
+                      break;
+                    default:
+                      href = "#";
+                  }
+
+                  return (
+                    <Link href={href}>
+                      <button className="mt-auto cursor-pointer px-4 py-2 border w-32 border-gray-300 rounded hover:bg-gray-100 text-sm text-gray-800">
+                        Get Started
+                      </button>
+                    </Link>
+                  );
+                })()}
               </div>
             ))}
           </div>
