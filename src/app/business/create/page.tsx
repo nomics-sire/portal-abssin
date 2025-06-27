@@ -67,7 +67,7 @@ export default function CreateBusinessABSSIN() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full bg-red-700 text-white py-2 px-4 rounded text-sm ${
+            className={`w-full bg-red-700 text-white py-2 px-4 rounded text-sm cursor-pointer ${
               loading ? "opacity-50 cursor-not-allowed" : "hover:bg-red-800"
             }`}
           >
