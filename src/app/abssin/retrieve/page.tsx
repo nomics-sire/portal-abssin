@@ -33,7 +33,7 @@ const RetrieveAbssinPage: React.FC = () => {
     } else {
       setMessage(data?.message || "OTP sent successfully.");
       // Navigate to OTP input page with query parameters
-      router.push(`/abssin/retrieve/auth?by=${method}&to=${encodeURIComponent(value)}`);
+      router.push(`/abssin/retrieve/auth?by=${method}&to=${(value)}`);
     }
   };
 
