@@ -1,7 +1,9 @@
+import DependentAbssinForm from "@/components/DependentAbssinForm";
+
 const DependentAbssinPage = () => {
   return (
     <>
-    Create dependent Abssin
+      <DependentAbssinForm />
     </>
   );
 };

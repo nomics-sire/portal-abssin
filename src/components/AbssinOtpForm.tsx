@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ const AbssinOtpForm: React.FC = () => {
   const [userData, setUserData] = useState<any | null>(null);
 
   const { request, loading } = useApi();
-  const router = useRouter();
+ 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
