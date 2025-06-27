@@ -5,10 +5,13 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
 import Link from "next/link";
 
-export default function AbssinRetrieveAuthPage() {
-  const searchParams = useSearchParams();
-  const method = searchParams.get("by") || "phone";
-  const to = searchParams.get("to") || "";
+interface Props {
+  searchParams: { by?: string; to?: string };
+}
+
+export default function AbssinRetrieveAuthPage({ searchParams }: Props) {
+  const method = searchParams.by || "phone";
+  const to = searchParams.to || "";
 
   const [otp, setOtp] = useState("");
   const [message, setMessage] = useState("");
