@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useApi } from "@/hooks/useApi";
 import { useDropdownData } from "@/hooks/useDropdownData";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface School {
   id: number;
@@ -16,7 +17,9 @@ interface School {
 const DependentAbssinForm: React.FC = () => {
   const { request, loading } = useApi();
   const { states, lgas } = useDropdownData();
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+const router = useRouter();
   const [schools, setSchools] = useState<School[]>([]);
   const [formData, setFormData] = useState({
     first_name: "",
@@ -26,8 +29,8 @@ const DependentAbssinForm: React.FC = () => {
     gender: "",
     lga: "",
     state_of_origin: "",
-    student_school_id: "", // manual input by student
-    selected_school_id: "", // from dropdown
+    student_school_id: "", 
+    selected_school_id: "", 
     guardian_phone_number: "",
     guardian_abssin: "",
     school_address: "",
@@ -85,8 +88,21 @@ const DependentAbssinForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("formdata", formData);
-    // await request("your/api/endpoint", { method: "POST", body: formData });
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    const { data, error } = await request("user/create-infant", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (error) {
+      setErrorMessage(error);
+    } else {
+      setSuccessMessage(data?.message );
+      router.push("/")
+    //   setSuccessMessage(data?.message || "Dependent ABSSIN registered successfully.");
+    }
   };
 
   return (
@@ -95,6 +111,18 @@ const DependentAbssinForm: React.FC = () => {
         Dependent ABSSIN Registration
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
+        {errorMessage && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-sm">
+            {errorMessage}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded text-sm">
+            {successMessage}
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             "first_name",
