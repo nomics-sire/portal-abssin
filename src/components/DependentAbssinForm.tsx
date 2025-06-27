@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useApi } from "@/hooks/useApi";
+import { useDropdownData } from "@/hooks/useDropdownData"; // Update the path as necessary
 import Image from "next/image";
 
 interface School {
@@ -14,6 +15,8 @@ interface School {
 
 const DependentAbssinForm: React.FC = () => {
   const { request, loading } = useApi();
+  const { states } = useDropdownData();
+
   const [schools, setSchools] = useState<School[]>([]);
   const [formData, setFormData] = useState({
     first_name: "",
@@ -29,7 +32,7 @@ const DependentAbssinForm: React.FC = () => {
     school_name: "",
     school_address: "",
     agent_email: "",
-    image: "", // base64
+    image: "",
   });
 
   const [cameraOpen, setCameraOpen] = useState(false);
@@ -39,20 +42,15 @@ const DependentAbssinForm: React.FC = () => {
   // Fetch schools on mount
   useEffect(() => {
     const fetchSchools = async () => {
-      const { data, error } = await request("user/school-list", {
+      const { data } = await request("user/school-list", {
         method: "GET",
       });
-      console.log("data", data);
-
       if (data?.response_data) {
         setSchools(data.response_data);
       }
     };
-
     fetchSchools();
   }, []);
-
-  console.log("schools", schools);
 
   // Handle camera
   const openCamera = async () => {
@@ -77,7 +75,6 @@ const DependentAbssinForm: React.FC = () => {
       setFormData({ ...formData, image: base64Image });
       setCameraOpen(false);
 
-      // Stop camera stream
       const stream = video.srcObject as MediaStream;
       stream?.getTracks().forEach((track) => track.stop());
     }
@@ -102,76 +99,143 @@ const DependentAbssinForm: React.FC = () => {
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            "first_name",
-            "middle_name",
-            "surname",
-            "birth_date",
-            "state_of_origin",
-            "guardian_phone_number",
-            "guardian_abssin",
-            "agent_email",
-          ].map((field) => (
-            <input
-              key={field}
-              name={field}
-              value={(formData as any)[field]}
+ {[
+  "first_name",
+  "middle_name",
+  "surname",
+  "birth_date",
+  "guardian_phone_number",
+  "guardian_abssin",
+  "agent_email",
+].map((field) => {
+  const label =
+    field === "agent_email"
+      ? "Guardian Email"
+      : field.replace(/_/g, " ");
+
+  const type = field === "birth_date" ? "date" : "text";
+
+  return (
+    <div key={field} className="flex flex-col">
+      <label
+        htmlFor={field}
+        className="text-sm font-medium text-gray-700 mb-1 capitalize"
+      >
+        {label}
+      </label>
+      <input
+        id={field}
+        type={type}
+        name={field}
+        value={(formData as any)[field]}
+        onChange={handleChange}
+        className="w-full border px-3 py-2 text-sm rounded"
+        required
+      />
+    </div>
+  );
+})}
+
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="gender"
+              className="text-sm font-medium text-gray-700 mb-1"
+            >
+              Gender
+            </label>
+            <select
+              id="gender"
+              name="gender"
+              value={formData.gender}
               onChange={handleChange}
-              placeholder={field
-                .replace(/_/g, " ")
-                .replace(/\b\w/g, (l) => l.toUpperCase())}
               className="w-full border px-3 py-2 text-sm rounded"
               required
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="state_of_origin"
+              className="text-sm font-medium text-gray-700 mb-1"
+            >
+              State of Origin
+            </label>
+            <select
+              id="state_of_origin"
+              name="state_of_origin"
+              value={formData.state_of_origin}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 text-sm rounded"
+              required
+            >
+              <option value="">Select State of Origin</option>
+              {states.map((s) => (
+                <option key={s.idstates} value={s.state}>
+                  {s.state}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="student_school_id"
+              className="text-sm font-medium text-gray-700 mb-1"
+            >
+              School
+            </label>
+            <select
+              id="student_school_id"
+              name="student_school_id"
+              value={formData.student_school_id}
+              onChange={(e) => {
+                const selected = schools.find(
+                  (s) => s.id.toString() === e.target.value
+                );
+                setFormData({
+                  ...formData,
+                  student_school_id: e.target.value,
+                  school_name: selected?.school_name || "",
+                  school_address: selected?.adress || "",
+                  lga: selected?.lga || "",
+                });
+              }}
+              className="w-full border px-3 py-2 text-sm rounded"
+              required
+            >
+              <option value="">Select School</option>
+              {schools.map((school) => (
+                <option key={school.id} value={school.id}>
+                  {school.school_name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="school_address"
+              className="text-sm font-medium text-gray-700 mb-1"
+            >
+              School Address
+            </label>
+            <input
+              id="school_address"
+              type="text"
+              name="school_address"
+              value={formData.school_address}
+              readOnly
+              className="w-full border px-3 py-2 text-sm rounded bg-gray-100"
             />
-          ))}
-
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className="w-full border px-3 py-2 text-sm rounded"
-            required
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-
-          <select
-            name="student_school_id"
-            value={formData.student_school_id}
-            onChange={(e) => {
-              const selected = schools.find(
-                (s) => s.id.toString() === e.target.value
-              );
-              setFormData({
-                ...formData,
-                student_school_id: e.target.value,
-                school_name: selected?.school_name || "",
-                school_address: selected?.adress || "",
-                lga: selected?.lga || "",
-              });
-            }}
-            className="w-full border px-3 py-2 text-sm rounded"
-            required
-          >
-            <option value="">Select School</option>
-            {schools.map((school) => (
-              <option key={school.id} value={school.id}>
-                {school.school_name}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            name="school_address"
-            value={formData.school_address}
-            readOnly
-            placeholder="School Address"
-            className="w-full border px-3 py-2 text-sm rounded bg-gray-100"
-          />
+          </div>
         </div>
 
+        {/* Camera Capture & Image Display */}
         <div className="flex flex-col gap-4">
           <button
             type="button"
@@ -195,7 +259,6 @@ const DependentAbssinForm: React.FC = () => {
 
           <button
             type="submit"
-            // disabled={loading}
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
             {loading ? "Submitting..." : "Submit"}
@@ -203,7 +266,7 @@ const DependentAbssinForm: React.FC = () => {
         </div>
       </form>
 
-      {/* Camera preview and capture button */}
+      {/* Camera Preview */}
       {cameraOpen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded shadow-lg">
