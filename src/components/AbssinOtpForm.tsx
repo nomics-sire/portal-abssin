@@ -41,6 +41,9 @@ const AbssinOtpForm: React.FC = () => {
     setUserData(null);
   };
 
+  console.log("userData", userData);
+  
+
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 text-gray-800 relative">
       <div className="max-w-md mx-auto bg-white shadow rounded-lg p-6">
@@ -104,6 +107,9 @@ const AbssinOtpForm: React.FC = () => {
             <ul className="text-sm space-y-2">
               <li>
                 <strong>Name:</strong> {userData.tp_name}
+              </li>
+              <li>
+                <strong>ABSSIN:</strong> {userData.state_id}
               </li>
               <li>
                 <strong>Phone:</strong> {userData.phone_number}
