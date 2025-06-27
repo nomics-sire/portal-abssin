@@ -7,8 +7,12 @@ import Link from "next/link";
 
 export default function AbssinRetrieveAuthPage() {
   const searchParams = useSearchParams();
-  const method = searchParams.get("by") || "phone";
-  const to = searchParams.get("to") || "";
+  const by = searchParams.get('by');
+const to = searchParams.get('to');
+//   const method = searchParams.get("by") || "phone";
+//   const to = searchParams.get("to") || "";
+
+  
 
   const [otp, setOtp] = useState("");
   const [message, setMessage] = useState("");
@@ -46,7 +50,7 @@ export default function AbssinRetrieveAuthPage() {
       <div className="max-w-md mx-auto bg-white shadow rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Enter OTP</h2>
         <p className="text-sm text-gray-600 mb-6">
-          An OTP has been sent to your {method === "email" ? "email" : "phone"}:{" "}
+          An OTP has been sent to your {by === "email" ? "email" : "phone"}:{" "}
           <span className="font-medium text-gray-900">{to}</span>
         </p>
 
