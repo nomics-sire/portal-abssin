@@ -182,7 +182,7 @@ const DependentAbssinForm: React.FC = () => {
           </button>
 
           {formData.image && (
-            <div className="mt-2">
+            <div className="mt-2 flex justify-center">
               <Image
                 src={formData.image}
                 alt="Captured"
