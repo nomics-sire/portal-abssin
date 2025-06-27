@@ -99,43 +99,42 @@ const DependentAbssinForm: React.FC = () => {
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
- {[
-  "first_name",
-  "middle_name",
-  "surname",
-  "birth_date",
-  "guardian_phone_number",
-  "guardian_abssin",
-  "agent_email",
-].map((field) => {
-  const label =
-    field === "agent_email"
-      ? "Guardian Email"
-      : field.replace(/_/g, " ");
+          {[
+            "first_name",
+            "middle_name",
+            "surname",
+            "birth_date",
+            "guardian_phone_number",
+            "guardian_abssin",
+            "agent_email",
+          ].map((field) => {
+            const label =
+              field === "agent_email"
+                ? "Guardian Email"
+                : field.replace(/_/g, " ");
 
-  const type = field === "birth_date" ? "date" : "text";
+            const type = field === "birth_date" ? "date" : "text";
 
-  return (
-    <div key={field} className="flex flex-col">
-      <label
-        htmlFor={field}
-        className="text-sm font-medium text-gray-700 mb-1 capitalize"
-      >
-        {label}
-      </label>
-      <input
-        id={field}
-        type={type}
-        name={field}
-        value={(formData as any)[field]}
-        onChange={handleChange}
-        className="w-full border px-3 py-2 text-sm rounded"
-        required
-      />
-    </div>
-  );
-})}
-
+            return (
+              <div key={field} className="flex flex-col">
+                <label
+                  htmlFor={field}
+                  className="text-sm font-medium text-gray-700 mb-1 capitalize"
+                >
+                  {label}
+                </label>
+                <input
+                  id={field}
+                  type={type}
+                  name={field}
+                  value={(formData as any)[field]}
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 text-sm rounded"
+                  required
+                />
+              </div>
+            );
+          })}
 
           <div className="flex flex-col">
             <label
