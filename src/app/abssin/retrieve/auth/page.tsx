@@ -1,5 +1,5 @@
 // app/abssin/retrieve/auth/page.tsx
-
+"use client"
 import dynamic from "next/dynamic";
 
 // Lazy load the client-side OTP form
