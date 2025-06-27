@@ -1,5 +1,5 @@
 import React from "react";
-const DownloadPage = () => {
+const DownloadAbssinPage = () => {
   return (
     <>
     Download Abssin
@@ -7,4 +7,4 @@ const DownloadPage = () => {
   );
 };
 
-export default DownloadPage;
+export default DownloadAbssinPage;

@@ -1,4 +1,4 @@
-const dependentPage = () => {
+const DependentAbssinPage = () => {
   return (
     <>
     Create dependent Abssin
@@ -6,4 +6,4 @@ const dependentPage = () => {
   );
 };
 
-export default dependentPage;
+export default DependentAbssinPage;
