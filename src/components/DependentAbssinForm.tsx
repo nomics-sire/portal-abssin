@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useApi } from "@/hooks/useApi";
-import { useDropdownData } from "@/hooks/useDropdownData"; // Update the path as necessary
+import { useDropdownData } from "@/hooks/useDropdownData";
 import Image from "next/image";
 
 interface School {
@@ -15,7 +15,7 @@ interface School {
 
 const DependentAbssinForm: React.FC = () => {
   const { request, loading } = useApi();
-  const { states } = useDropdownData();
+  const { states, lgas } = useDropdownData();
 
   const [schools, setSchools] = useState<School[]>([]);
   const [formData, setFormData] = useState({
@@ -26,10 +26,10 @@ const DependentAbssinForm: React.FC = () => {
     gender: "",
     lga: "",
     state_of_origin: "",
-    student_school_id: "",
+    student_school_id: "", // manual input by student
+    selected_school_id: "", // from dropdown
     guardian_phone_number: "",
     guardian_abssin: "",
-    school_name: "",
     school_address: "",
     agent_email: "",
     image: "",
@@ -39,7 +39,6 @@ const DependentAbssinForm: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Fetch schools on mount
   useEffect(() => {
     const fetchSchools = async () => {
       const { data } = await request("user/school-list", {
@@ -52,14 +51,11 @@ const DependentAbssinForm: React.FC = () => {
     fetchSchools();
   }, []);
 
-  // Handle camera
   const openCamera = async () => {
     setCameraOpen(true);
-    if (navigator.mediaDevices?.getUserMedia) {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    if (videoRef.current) {
+      videoRef.current.srcObject = stream;
     }
   };
 
@@ -90,6 +86,7 @@ const DependentAbssinForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("formdata", formData);
+    // await request("your/api/endpoint", { method: "POST", body: formData });
   };
 
   return (
@@ -107,10 +104,13 @@ const DependentAbssinForm: React.FC = () => {
             "guardian_phone_number",
             "guardian_abssin",
             "agent_email",
+            "student_school_id",
           ].map((field) => {
             const label =
               field === "agent_email"
                 ? "Guardian Email"
+                : field === "student_school_id"
+                ? "Student School ID"
                 : field.replace(/_/g, " ");
 
             const type = field === "birth_date" ? "date" : "text";
@@ -183,23 +183,46 @@ const DependentAbssinForm: React.FC = () => {
 
           <div className="flex flex-col">
             <label
-              htmlFor="student_school_id"
+              htmlFor="lga"
               className="text-sm font-medium text-gray-700 mb-1"
             >
-              School
+              LGA
             </label>
             <select
-              id="student_school_id"
-              name="student_school_id"
-              value={formData.student_school_id}
+              id="lga"
+              name="lga"
+              value={formData.lga}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 text-sm rounded"
+              required
+            >
+              <option value="">Select LGA</option>
+              {lgas.map((lga) => (
+                <option key={lga.lgaID} value={lga.lgaID.toString()}>
+                  {lga.lgaName}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="selected_school_id"
+              className="text-sm font-medium text-gray-700 mb-1"
+            >
+              Select School
+            </label>
+            <select
+              id="selected_school_id"
+              name="selected_school_id"
+              value={formData.selected_school_id}
               onChange={(e) => {
                 const selected = schools.find(
                   (s) => s.id.toString() === e.target.value
                 );
                 setFormData({
                   ...formData,
-                  student_school_id: e.target.value,
-                  school_name: selected?.school_name || "",
+                  selected_school_id: e.target.value,
                   school_address: selected?.adress || "",
                   lga: selected?.lga || "",
                 });
@@ -216,6 +239,7 @@ const DependentAbssinForm: React.FC = () => {
             </select>
           </div>
 
+          {/* School Address */}
           <div className="flex flex-col">
             <label
               htmlFor="school_address"
@@ -234,12 +258,12 @@ const DependentAbssinForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Camera Capture & Image Display */}
+        {/* Image Capture and Submit */}
         <div className="flex flex-col gap-4">
           <button
             type="button"
             onClick={openCamera}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"
           >
             Capture Image
           </button>
@@ -258,14 +282,14 @@ const DependentAbssinForm: React.FC = () => {
 
           <button
             type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded"
+            className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer"
           >
             {loading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
 
-      {/* Camera Preview */}
+      {/* Camera Modal */}
       {cameraOpen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded shadow-lg">
