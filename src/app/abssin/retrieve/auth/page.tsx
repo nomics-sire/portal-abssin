@@ -1,31 +1,28 @@
-"use client";
+// app/abssin/retrieve/auth/page.tsx
 
-import React, { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+'use client';
+
+import { useState } from "react";
 import { useApi } from "@/hooks/useApi";
-import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-interface Props {
-  searchParams: { by?: string; to?: string };
-}
-
-export default function AbssinRetrieveAuthPage({ searchParams }: Props) {
-  const method = searchParams.by || "phone";
-  const to = searchParams.to || "";
+export default function AbssinRetrieveAuthPage() {
+  const searchParams = useSearchParams();
+  const method = searchParams.get("by") || "phone";
+  const to = searchParams.get("to") || "";
 
   const [otp, setOtp] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [userData, setUserData] = useState<any | null>(null);
+  const [abssinData, setAbssinData] = useState<any>(null);
 
   const { request, loading } = useApi();
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
     setError("");
-    setUserData(null);
+    setAbssinData(null);
 
     const { data, error } = await request("user/verify-retrieve-abssin-otp", {
       method: "POST",
@@ -36,16 +33,12 @@ export default function AbssinRetrieveAuthPage({ searchParams }: Props) {
       setError(error);
     } else {
       setMessage(data?.message || "ABSSIN Details Retrieved Successfully.");
-      setUserData(data?.data || null);
+      setAbssinData(data?.data);
     }
   };
 
-  const closePopup = () => {
-    setUserData(null);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 text-gray-800 relative">
+    <div className="min-h-screen bg-gray-50 py-10 px-4 text-gray-800">
       <div className="max-w-md mx-auto bg-white shadow rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Enter OTP</h2>
         <p className="text-sm text-gray-600 mb-6">
@@ -91,48 +84,24 @@ export default function AbssinRetrieveAuthPage({ searchParams }: Props) {
             {loading ? "Verifying..." : "Verify OTP"}
           </button>
         </form>
-      </div>
 
-      {userData && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full relative">
-            <button
-              onClick={closePopup}
-              className="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl"
-            >
-              &times;
-            </button>
-            <h3 className="text-xl font-semibold mb-4">ABSSIN Details</h3>
-            <ul className="text-sm space-y-2">
-              <li>
-                <strong>Name:</strong> {userData.tp_name}
-              </li>
-              <li>
-                <strong>Phone:</strong> {userData.phone_number}
-              </li>
-              {/* <li><strong>Email:</strong> {userData.email || "N/A"}</li> */}
-              <li>
-                <strong>Address:</strong> {userData.address}
-              </li>
-              {/* <li><strong>Tax Office:</strong> {userData.tax_office}</li> */}
-              <li>
-                <strong>Type of Business:</strong> {userData.type_of_business}
-              </li>
-              <li>
-                <strong>Business Type:</strong> {userData.tp_type}
-              </li>
-              {/* <li><strong>Created At:</strong> {new Date(userData.createtime).toLocaleString()}</li> */}
+        {abssinData && (
+          <div className="mt-6 bg-gray-100 p-4 rounded text-sm">
+            <h3 className="text-lg font-semibold mb-2">ABSSIN Details</h3>
+            <ul className="space-y-1">
+              <li><strong>Name:</strong> {abssinData.tp_name}</li>
+              <li><strong>Phone:</strong> {abssinData.phone_number}</li>
+              <li><strong>Email:</strong> {abssinData.email || "N/A"}</li>
+              <li><strong>Address:</strong> {abssinData.address}</li>
+              <li><strong>State ID:</strong> {abssinData.state_id}</li>
+              <li><strong>Tax Office:</strong> {abssinData.tax_office}</li>
+              <li><strong>Type:</strong> {abssinData.tp_type}</li>
+              <li><strong>Business Type:</strong> {abssinData.type_of_business}</li>
+              <li><strong>Created By:</strong> {abssinData.enter_by}</li>
             </ul>
-            <div className="flex justify-end">
-              <Link href={"/"}>
-                <button className="mt-auto cursor-pointer px-4 py-2 border w-32 border-red-200 rounded hover:bg-red-600 text-sm bg-red-700 text-white">
-                  Home
-                </button>
-              </Link>
-            </div>
-          </div>{" "}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
