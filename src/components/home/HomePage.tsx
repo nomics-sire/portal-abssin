@@ -10,6 +10,7 @@ import EmpoweringIdentity from "./EmpoweringIdentity";
 import RoleBasedFeatures from "./RoleBasedFeatures";
 import Footer from "./Footer";
 import Link from "next/link";
+import Navbar from "./Navbar";
 
 const slides = [
   {
@@ -49,6 +50,7 @@ export default function HomePage() {
 
   return (
     <>
+    <Navbar />
       <div className="relative h-[80vh] w-full overflow-hidden">
         {slides.map((slide, index) => (
           <div key={index} className="absolute inset-0 w-full h-full">
