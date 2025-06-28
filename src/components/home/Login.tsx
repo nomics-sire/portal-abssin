@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
+import { Eye } from 'lucide-react';
 
 export default function Login() {
   const [abssin, setAbssin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { request, loading } = useApi();
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,19 +84,29 @@ export default function Login() {
                 required
               />
             </div>
-
             <div>
               <label className="text-sm text-gray-700 font-medium">
                 Password
               </label>
-              <input
-                type="password"
-                placeholder="********"
-                className="w-full border border-gray-300 text-gray-800 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-1 focus:ring-red-700"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="********"
+                  className="w-full border border-gray-300 text-gray-800 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-1 focus:ring-red-700 pr-10"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+
+                {/* Only show icon if there's input */}
+                {/* {password && (
+                  <Eye
+                    className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer hover:text-red-700"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                )} */}
+              </div>
+
               <div className="text-right mt-1">
                 <a href="#" className="text-sm text-red-600 hover:underline">
                   Forgot password
@@ -104,7 +116,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-red-700 hover:bg-red-800 text-white py-2 rounded"
+              className="w-full bg-red-700 hover:bg-red-800 text-white py-2 rounded cursor-pointer"
               disabled={loading}
             >
               {loading ? "Logging in..." : "Login"}

@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen flex">
-      {/* Sidebar */}
+
       <aside className="w-64 bg-red-700 text-white flex flex-col justify-between p-6">
         <div>
           <h2 className="text-xl font-bold mb-6">ABSSIN Portal</h2>
@@ -52,7 +52,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </nav>
         </div>
 
-        {/* Logout */}
         <button
           onClick={handleLogout}
           className="flex items-center gap-2 text-sm text-white hover:text-red-100 mt-6 cursor-pointer"
@@ -62,7 +61,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </button>
       </aside>
 
-      {/* Page Content */}
+ 
       <main className="flex-1 p-6 bg-gray-50">{children}</main>
     </div>
   );
