@@ -1,7 +1,9 @@
 import React from "react";
 
 const UserDashboardPage = () => {
-  return <>User dashboard page</>;
+  return <>
+  <div className="text-gray-800">User dashboard page</div>
+  </>;
 };
 
 export default UserDashboardPage;
