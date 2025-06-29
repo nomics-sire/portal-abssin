@@ -220,7 +220,7 @@ export default function BusinessDetailsForm() {
               >
                 <option value="">Select Sector</option>
                 {sectors.map((s) => (
-                  <option key={s.id} value={s.id.toString()}>
+                  <option key={s.id} value={s.sector_name}>
                     {s.sector_name}
                   </option>
                 ))}
@@ -280,7 +280,7 @@ export default function BusinessDetailsForm() {
               >
                 <option value="">Select Category</option>
                 {cdnCategories.map((b) => (
-                  <option key={b.id} value={b.id.toString()}>
+                  <option key={b.id} value={b.category_name}>
                     {b.category_name}
                   </option>
                 ))}
