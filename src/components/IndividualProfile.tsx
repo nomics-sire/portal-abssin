@@ -123,6 +123,7 @@ export default function IndividualProfile() {
       state_of_residence: profile.state_of_residence,
       state_of_origin: profile.state_of_origin,
       tax_office: profile.tax_office,
+      lga: profile.lga,
       employer_name: profile.employer_name,
       employer_tin: profile.employer_tin,
     };
