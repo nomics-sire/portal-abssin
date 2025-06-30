@@ -1,7 +1,10 @@
+import IndividualProfile from "@/components/IndividualProfile";
+
 const UserProfilePage = () => {
   return (
     <>
-      <div className="text-gray-800">User Profile Page</div>
+    <IndividualProfile/>
+      {/* <div className="text-gray-800">User Profile Page</div> */}
     </>
   );
 };

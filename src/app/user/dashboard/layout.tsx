@@ -3,7 +3,7 @@
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Loader2, LogOut, Printer, User } from "lucide-react";
+import { Loader2, LogOut, Printer, User, Tag, BadgeInfo } from "lucide-react";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
@@ -111,22 +111,14 @@ export default function DashboardLayout({
 
       <div className="flex-1 flex flex-col">
         <header className="bg-white shadow px-6 h-18 flex items-center justify-end text-sm text-gray-700">
-          <div className="flex gap-8 items-center">
-            <div className="flex flex-col text-right">
-              <span className="text-xs text-gray-500 uppercase tracking-wide">
-                ABSSIN
-              </span>
-              <span className="text-base font-semibold text-gray-800">
-                {abssin}
-              </span>
+          <div className="flex gap-6 items-center text-sm text-gray-700">
+            <div className="flex items-center gap-1">
+              <User className="w-4 h-4 text-red-700" />
+              <span className="font-medium">{abssin}</span>
             </div>
-            <div className="flex flex-col text-right">
-              <span className="text-xs text-gray-500 uppercase tracking-wide">
-                Type
-              </span>
-              <span className="text-base font-semibold text-gray-800">
-                {userType}
-              </span>
+            <div className="flex items-center gap-1">
+              <Tag className="w-4 h-4 text-red-700" />
+              <span className="font-medium">{userType}</span>
             </div>
           </div>
         </header>
