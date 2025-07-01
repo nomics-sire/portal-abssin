@@ -10,34 +10,26 @@ interface DecodedToken {
 }
 
 interface UserProfile {
-  indv_title: string;
-  surname: string;
-  first_name: string;
-  middle_name: string;
-  birth_date: string;
-  birth_place: string;
-  gender: string;
-  marital_status: string;
+  coy_name: string;
+  regist_name: string;
+  rcno: string;
+  date_of_incorporation: string;
+  enterprise_reg_no: string;
+  date_of_commencement: string;
+  line_of_business: string;
+  e_mail: string;
+  phone_no: string;
   house_no: string;
   street: string;
   city: string;
   lga: string;
   ward: string;
-  email: string;
-  phone_number: string;
-  mobile_number: string | null;
-  occupation: string;
   category: string;
   sector: string;
-  nationality: string;
-  state_of_residence: string;
-  state_of_origin: string;
   tax_office: string;
-  employer_name: string;
-  employer_tin: string | null;
 }
 
-export default function IndividualProfile() {
+export default function NonIndividualProfile() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const { request } = useApi();
   const [profileLoading, setProfileLoading] = useState(true);
@@ -61,21 +53,21 @@ export default function IndividualProfile() {
     const state_id = decoded.state_id;
 
     const fetchProfile = async () => {
-      setProfileLoading(true); 
+      setProfileLoading(true);
 
-      const { data, error } = await request("user/individual", {
+      const { data, error } = await request("user/non-individual", {
         method: "POST",
         body: { id: state_id },
       });
 
       if (data?.data) {
-        setProfile(data.data); 
-        setOriginalProfile(data.data); 
+        setProfile(data.data);
+        setOriginalProfile(data.data);
       } else {
         console.error(error || "Unable to load profile");
       }
 
-      setProfileLoading(false); 
+      setProfileLoading(false);
     };
 
     fetchProfile();
@@ -99,39 +91,32 @@ export default function IndividualProfile() {
     setSaving(true);
 
     const payload = {
-    //   id: originalProfile.id,
+      //   id: originalProfile.id,
       state_id: originalProfile.state_id,
-      indv_title: profile.indv_title,
-      surname: profile.surname,
-      first_name: profile.first_name,
-      middle_name: profile.middle_name,
-      birth_date: profile.birth_date,
-      birth_place: profile.birth_place,
-      gender: profile.gender,
-      marital_status: profile.marital_status,
+      coy_name: profile.coy_name,
+      regist_name: profile.regist_name,
+      rcno: profile.rcno,
+      date_of_incorporation: profile.date_of_incorporation,
+      date_of_commencement: profile.date_of_commencement,
+      line_of_business: profile.line_of_business,
+      enterprise_reg_no: profile.enterprise_reg_no,
+      e_mail: profile.e_mail,
+      phone_no: profile.phone_no,
       house_no: profile.house_no,
       street: profile.street,
       city: profile.city,
       ward: profile.ward,
-      email: profile.email,
-      phone_number: profile.phone_number,
-      mobile_number: profile.mobile_number,
-      occupation: profile.occupation,
       category: profile.category,
       sector: profile.sector,
-      nationality: profile.nationality,
-      state_of_residence: profile.state_of_residence,
-      state_of_origin: profile.state_of_origin,
       tax_office: profile.tax_office,
       lga: profile.lga,
-      employer_name: profile.employer_name,
-      employer_tin: profile.employer_tin,
     };
 
-    const { data, error } = await request("user/update-individual", {
+    const { data, error } = await request("user/update-non-individual", {
       method: "POST",
       body: payload,
     });
+    console.log("payload", payload);
 
     if (error) {
       console.error("Update error:", error);
@@ -175,38 +160,30 @@ export default function IndividualProfile() {
         </div>
       )}
       <form className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div className="flex flex-col">
-          <label className="mb-1 text-gray-600 font-medium">Title</label>
-          <select
-            name="indv_title"
-            value={profile.indv_title}
-            onChange={handleChange}
-            className="border px-3 py-2 rounded"
-          >
-            <option value="">Select Title</option>
-            <option value="Mrss">Mrss</option>
-            <option value="Mrs">Mrs</option>
-            <option value="Mr">Mr</option>
-          </select>
-        </div>
         {[
-          { label: "Surname", name: "surname" },
-          { label: "First Name", name: "first_name" },
-          { label: "Middle Name", name: "middle_name" },
-          { label: "Birth Date", name: "birth_date", type: "date" },
-          { label: "Birth Place", name: "birth_place" },
-          { label: "Marital Status", name: "marital_status" },
+          { label: "Company Name", name: "coy_name" },
+          { label: "Registration Name", name: "regist_name" },
+          {
+            label: "Enterprise Registration number",
+            name: "enterprise_reg_no",
+          },
+          { label: "Rc No", name: "rcno" },
+          {
+            label: "Date of Incorporation",
+            name: "date_of_incorporation",
+            type: "date",
+          },
+          {
+            label: "Date of Commencement",
+            name: "date_of_commencement",
+            type: "date",
+          },
+          { label: "Email", name: "e_mail" },
+          { label: "Phone Number", name: "phone_no" },
           { label: "House No", name: "house_no" },
           { label: "Street", name: "street" },
           { label: "City", name: "city" },
           { label: "Ward", name: "ward" },
-          { label: "Email", name: "email" },
-          { label: "Phone Number", name: "phone_number" },
-          { label: "Mobile Number", name: "mobile_number" },
-          { label: "Occupation", name: "occupation" },
-          { label: "Nationality", name: "nationality" },
-          { label: "Employer Name", name: "employer_name" },
-          { label: "Employer TIN", name: "employer_tin" },
         ].map(({ label, name, type }) => (
           <div key={name} className="flex flex-col">
             <label className="mb-1 text-gray-600 font-medium">{label}</label>
@@ -219,58 +196,6 @@ export default function IndividualProfile() {
             />
           </div>
         ))}
-
-        <div className="flex flex-col">
-          <label className="mb-1 text-gray-600 font-medium">Gender</label>
-          <select
-            name="gender"
-            value={profile.gender}
-            onChange={handleChange}
-            className="border px-3 py-2 rounded"
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className="mb-1 text-gray-600 font-medium">
-            State of Residence
-          </label>
-          <select
-            name="state_of_residence"
-            value={profile.state_of_residence}
-            onChange={handleChange}
-            className="border px-3 py-2 rounded"
-          >
-            <option value="">Select State</option>
-            {states.map((s) => (
-              <option key={s.idstates} value={s.idstates.toString()}>
-                {s.state}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className="mb-1 text-gray-600 font-medium">
-            State of Origin
-          </label>
-          <select
-            name="state_of_origin"
-            value={profile.state_of_origin}
-            onChange={handleChange}
-            className="border px-3 py-2 rounded"
-          >
-            <option value="">Select State</option>
-            {states.map((s) => (
-              <option key={s.idstates} value={s.idstates.toString()}>
-                {s.state}
-              </option>
-            ))}
-          </select>
-        </div>
 
         <div className="flex flex-col">
           <label className="mb-1 text-gray-600 font-medium">LGA</label>
@@ -315,6 +240,24 @@ export default function IndividualProfile() {
             className="border px-3 py-2 rounded"
           >
             <option value="">Select Category</option>
+            {cdnCategories.map((cat) => (
+              <option key={cat.id} value={cat.category_name}>
+                {cat.category_name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex flex-col">
+          <label className="mb-1 text-gray-600 font-medium">
+            Line of Business
+          </label>
+          <select
+            name="line_of_business"
+            value={profile.line_of_business}
+            onChange={handleChange}
+            className="border px-3 py-2 rounded"
+          >
+            <option value="">Select</option>
             {cdnCategories.map((cat) => (
               <option key={cat.id} value={cat.category_name}>
                 {cat.category_name}
