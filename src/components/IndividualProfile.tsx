@@ -93,58 +93,69 @@ export default function IndividualProfile() {
       <div className="text-center py-10 text-gray-600">Loading profile...</div>
     );
   }
-  const handleSubmit = async () => {
-    if (!profile || !originalProfile) return;
+const handleSubmit = async () => {
+  if (!profile || !originalProfile) return;
 
-    setSaving(true);
+  setSaving(true);
 
-    const payload = {
-    //   id: originalProfile.id,
-      state_id: originalProfile.state_id,
-      indv_title: profile.indv_title,
-      surname: profile.surname,
-      first_name: profile.first_name,
-      middle_name: profile.middle_name,
-      birth_date: profile.birth_date,
-      birth_place: profile.birth_place,
-      gender: profile.gender,
-      marital_status: profile.marital_status,
-      house_no: profile.house_no,
-      street: profile.street,
-      city: profile.city,
-      ward: profile.ward,
-      email: profile.email,
-      phone_number: profile.phone_number,
-      mobile_number: profile.mobile_number,
-      occupation: profile.occupation,
-      category: profile.category,
-      sector: profile.sector,
-      nationality: profile.nationality,
-      state_of_residence: profile.state_of_residence,
-      state_of_origin: profile.state_of_origin,
-      tax_office: profile.tax_office,
-      lga: profile.lga,
-      employer_name: profile.employer_name,
-      employer_tin: profile.employer_tin,
-    };
+  const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("user_token="))
+    ?.split("=")[1];
 
-    const { data, error } = await request("user/update-individual", {
-      method: "POST",
-      body: payload,
-    });
-
-    if (error) {
-      console.error("Update error:", error);
-      setErrorMsg(error);
-      setMessage("");
-    } else {
-      console.log("Update success:", data);
-      setMessage(data?.message || "Profile updated successfully!");
-      setErrorMsg("");
-    }
-
-    setSaving(false);
+  const payload = {
+    state_id: originalProfile.state_id,
+    indv_title: profile.indv_title,
+    surname: profile.surname,
+    first_name: profile.first_name,
+    middle_name: profile.middle_name,
+    birth_date: profile.birth_date,
+    birth_place: profile.birth_place,
+    gender: profile.gender,
+    marital_status: profile.marital_status,
+    house_no: profile.house_no,
+    street: profile.street,
+    city: profile.city,
+    ward: profile.ward,
+    email: profile.email,
+    phone_number: profile.phone_number,
+    mobile_number: profile.mobile_number,
+    occupation: profile.occupation,
+    category: profile.category,
+    sector: profile.sector,
+    nationality: profile.nationality,
+    state_of_residence: profile.state_of_residence,
+    state_of_origin: profile.state_of_origin,
+    tax_office: profile.tax_office,
+    lga: profile.lga,
+    employer_name: profile.employer_name,
+    employer_tin: profile.employer_tin,
   };
+
+  const { data, error } = await request("user/update-individual", {
+    method: "POST",
+    body: payload,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  console.log("payload", payload);
+  
+
+  if (error) {
+    console.error("Update error:", error);
+    setErrorMsg(error);
+    setMessage("");
+  } else {
+    console.log("Update success:", data);
+    setMessage(data?.message || "Profile updated successfully!");
+    setErrorMsg("");
+  }
+
+  setSaving(false);
+};
+
 
   return (
     <div className="bg-white p-6 rounded shadow max-w-4xl mx-auto text-gray-800">

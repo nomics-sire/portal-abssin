@@ -49,6 +49,8 @@ export default function NonIndividualProfile() {
 
     if (!token) return;
 
+    
+
     const decoded = jwtDecode<DecodedToken>(token);
     const state_id = decoded.state_id;
 
@@ -90,6 +92,12 @@ export default function NonIndividualProfile() {
 
     setSaving(true);
 
+      const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("user_token="))
+    ?.split("=")[1];
+
+
     const payload = {
       //   id: originalProfile.id,
       state_id: originalProfile.state_id,
@@ -115,6 +123,9 @@ export default function NonIndividualProfile() {
     const { data, error } = await request("user/update-non-individual", {
       method: "POST",
       body: payload,
+          headers: {
+      Authorization: `Bearer ${token}`,
+    },
     });
     console.log("payload", payload);
 
@@ -207,7 +218,7 @@ export default function NonIndividualProfile() {
           >
             <option value="">Select LGA</option>
             {lgas.map((lga) => (
-              <option key={lga.lgaID} value={lga.lgaID.toString()}>
+              <option key={lga.lgaID} value={lga.lgaName}>
                 {lga.lgaName}
               </option>
             ))}
@@ -224,7 +235,7 @@ export default function NonIndividualProfile() {
           >
             <option value="">Select Sector</option>
             {sectors.map((s) => (
-              <option key={s.id} value={s.sector_name}>
+              <option key={s.id} value={s.id.toString()}>
                 {s.sector_name}
               </option>
             ))}
