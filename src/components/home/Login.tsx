@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
-import { Eye } from 'lucide-react';
+import { Eye } from "lucide-react";
+import Link from "next/link";
 
 export default function Login() {
   const [abssin, setAbssin] = useState("");
@@ -108,15 +109,19 @@ export default function Login() {
               </div>
 
               <div className="text-right mt-1">
-                <a href="#" className="text-sm text-red-600 hover:underline">
+                <Link
+                  href={"/forgot-password"}
+                  className="text-sm text-red-600 hover:underline"
+                >
                   Forgot password
-                </a>
+                </Link>
+           
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-red-700 hover:bg-red-800 text-white py-2 rounded cursor-pointer"
+              className="w-full bg-red-700 hover:bg-red-800 text-white py-2 rounded"
               disabled={loading}
             >
               {loading ? "Logging in..." : "Login"}
