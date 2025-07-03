@@ -1,47 +1,60 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useApi } from '@/hooks/useApi';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useApi } from "@/hooks/useApi";
+import { useRouter } from "next/navigation";
 
 export default function PasswordOtpForm() {
-  const [otp, setOtp] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const { request, loading } = useApi();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setMessage('');
+    setError("");
+    setMessage("");
 
     if (password.length < 8) {
-      setError('Password must be at least 8 characters');
+      setError("Password must be at least 8 characters");
       return;
     }
 
-    const { data, error } = await request('user/forgot-password-otp-verification', {
-      method: 'POST',
-      body: {
-        otp,
-        password,
-      },
-    });
+    const { data, error } = await request(
+      "user/forgot-password-otp-verification",
+      {
+        method: "POST",
+        body: {
+          otp,
+          password,
+        },
+      }
+    );
 
     if (error) {
       setError(error);
     } else {
-      setMessage(data?.message || 'Password updated successfully');
-      setTimeout(() => router.push('/login'), 1500);
+      setMessage(data?.message || "Password updated successfully");
+      setTimeout(() => router.push("/login"), 1500);
     }
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 text-gray-800">
       <div className="max-w-md w-full bg-white p-6 rounded shadow-md">
-        <h2 className="text-xl font-semibold mb-4">OTP Verification</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">OTP Verification</h2>
+          <button
+            onClick={() => router.back()}
+            className="text-sm text-red-700 hover:underline"
+            type="button"
+          >
+            Go back
+          </button>
+        </div>
+
         <p className="text-sm text-gray-600 mb-6">
           Enter the OTP sent to your phone/email and set your new password.
         </p>
@@ -93,11 +106,11 @@ export default function PasswordOtpForm() {
             disabled={loading}
             className={`w-full text-white py-2 rounded text-sm cursor-pointer ${
               loading
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-red-700 hover:bg-red-800'
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-red-700 hover:bg-red-800"
             }`}
           >
-            {loading ? 'Verifying...' : 'Reset Password'}
+            {loading ? "Verifying..." : "Reset Password"}
           </button>
         </form>
       </div>

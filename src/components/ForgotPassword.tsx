@@ -36,7 +36,16 @@ export default function ForgotPassword() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 text-gray-800">
       <div className="max-w-md w-full bg-white p-6 rounded shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Forgot Password</h2>
+                <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">OTP Verification</h2>
+          <button
+            onClick={() => router.back()}
+            className="text-sm text-red-700 hover:underline"
+            type="button"
+          >
+            Go back
+          </button>
+        </div>
         <p className="text-sm text-gray-600 mb-6">
           Enter your ABSSIN and choose how you want to receive your OTP.
         </p>
