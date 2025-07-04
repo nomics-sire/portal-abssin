@@ -41,7 +41,7 @@ export default function CreateBusinessABSSIN() {
     }
     setTimeout(() => {
       router.push("/business/create/auth");
-    }, 1000);
+    }, 3000);
   };
 
   return (
@@ -50,6 +50,23 @@ export default function CreateBusinessABSSIN() {
 
       <div className="min-h-screen px-4 py-20 bg-gray-50">
         <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow p-6">
+          {apiError && (
+            <p className="text-sm text-red-600 mt-2 text-center">{apiError}</p>
+          )}
+
+          {successMessage && (
+            <div className="text-sm text-green-700 mt-2 text-center space-y-1">
+              <p>{successMessage}</p>
+              {tpDetails && (
+                <>
+                  <p>{tpDetails.message}</p>
+                  <p>
+                    <strong>Name:</strong> {tpDetails.tp_name}
+                  </p>
+                </>
+              )}
+            </div>
+          )}
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             Create Business ABSSIN
           </h1>
@@ -80,28 +97,8 @@ export default function CreateBusinessABSSIN() {
                 loading ? "opacity-50 cursor-not-allowed" : "hover:bg-red-800"
               }`}
             >
-              {loading ? "Verifying..." : "Continue"}
+              {loading ? "Verifying..." : "Send Verification"}
             </button>
-
-            {apiError && (
-              <p className="text-sm text-red-600 mt-2 text-center">
-                {apiError}
-              </p>
-            )}
-
-            {successMessage && (
-              <div className="text-sm text-green-700 mt-2 text-center space-y-1">
-                <p>{successMessage}</p>
-                {tpDetails && (
-                  <>
-                    <p>{tpDetails.message}</p>
-                    <p>
-                      <strong>Name:</strong> {tpDetails.tp_name}
-                    </p>
-                  </>
-                )}
-              </div>
-            )}
           </form>
         </div>
       </div>

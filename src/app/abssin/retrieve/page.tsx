@@ -33,9 +33,10 @@ const RetrieveAbssinPage: React.FC = () => {
       setError(error);
     } else {
       setMessage(data?.message || "OTP sent successfully.");
-      router.push(
-        `/abssin/retrieve/auth?by=${method}&to=${encodeURIComponent(value)}`
-      );
+       setTimeout(() => {
+      router.push(`/abssin/retrieve/auth?by=${method}&to=${encodeURIComponent(value)}`);
+    }, 3000);
+  
     }
   };
 
@@ -103,7 +104,7 @@ const RetrieveAbssinPage: React.FC = () => {
                 loading ? "opacity-50 cursor-not-allowed" : "hover:bg-red-800"
               }`}
             >
-              {loading ? "Retrieving..." : "Retrieve ABSSIN"}
+              {loading ? "Retrieving..." : "Send Verification"}
             </button>
           </form>
         </div>
