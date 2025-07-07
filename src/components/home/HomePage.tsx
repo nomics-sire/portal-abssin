@@ -38,7 +38,7 @@ const slides = [
 
 export default function HomePage() {
   const [current, setCurrent] = useState(0);
- let href = "";
+  let href = "";
   const goToPrev = () =>
     setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   const goToNext = () => setCurrent((prev) => (prev + 1) % slides.length);
@@ -50,7 +50,7 @@ export default function HomePage() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <div className="relative h-[80vh] w-full overflow-hidden">
         {slides.map((slide, index) => (
           <div key={index} className="absolute inset-0 w-full h-full">
@@ -80,22 +80,70 @@ export default function HomePage() {
               {slides[current].subtitle}
             </p>
             <div className="flex justify-center gap-4">
-              {slides[current].buttons.map((btn, i) => (
-                <button
-                  key={i}
-                  className={`px-6 py-2 text-sm rounded ${
-                    btn.type === "primary"
-                      ? "bg-red-700 text-white hover:bg-red-800"
-                      : "border border-white hover:bg-white hover:text-black"
-                  }`}
-                >
-                  {btn.label}
-                </button>
-              ))}
+              {slides[current].buttons.map((btn, i) => {
+                if (btn.label === "Retrieve ABSSIN") {
+                  return (
+                    <Link href="/abssin/retrieve" key={i}>
+                      <button
+                        className={`px-6 py-2 text-sm rounded ${
+                          btn.type === "primary"
+                            ? "bg-red-700 text-white hover:bg-red-800"
+                            : "border border-white hover:bg-white hover:text-black"
+                        }`}
+                      >
+                        {btn.label}
+                      </button>
+                    </Link>
+                  );
+                }
+
+                if (btn.label === "Get Started") {
+                  return (
+                    <a href="#features" key={i}>
+                      <button
+                        className={`px-6 py-2 text-sm rounded ${
+                          btn.type === "primary"
+                            ? "bg-red-700 text-white hover:bg-red-800"
+                            : "border border-white hover:bg-white hover:text-black"
+                        }`}
+                      >
+                        {btn.label}
+                      </button>
+                    </a>
+                  );
+                }
+                if (btn.label === "Register Now") {
+                  return (
+                    <a href="#features" key={i}>
+                      <button
+                        className={`px-6 py-2 text-sm rounded ${
+                          btn.type === "primary"
+                            ? "bg-red-700 text-white hover:bg-red-800"
+                            : "border border-white hover:bg-white hover:text-black"
+                        }`}
+                      >
+                        {btn.label}
+                      </button>
+                    </a>
+                  );
+                }
+
+                return (
+                  <button
+                    key={i}
+                    className={`px-6 py-2 text-sm rounded ${
+                      btn.type === "primary"
+                        ? "bg-red-700 text-white hover:bg-red-800"
+                        : "border border-white hover:bg-white hover:text-black"
+                    }`}
+                  >
+                    {btn.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
-
 
         <button
           onClick={goToPrev}
@@ -110,7 +158,6 @@ export default function HomePage() {
           <ChevronRight />
         </button>
 
-    
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
           {slides.map((_, i) => (
             <div
@@ -122,7 +169,7 @@ export default function HomePage() {
           ))}
         </div>
       </div>
-      <section className="bg-gray-50 py-16 px-4">
+      <section id="features" className="bg-gray-50 py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <span className="inline-block bg-red-100 text-red-700 text-xs font-semibold px-4 py-1 rounded-full mb-2">
             Features
@@ -185,7 +232,6 @@ export default function HomePage() {
                   {feature.description}
                 </p>
                 {(() => {
-                 
                   switch (feature.title) {
                     case "Create Individual ABSSIN":
                       href = "/individual/create";
