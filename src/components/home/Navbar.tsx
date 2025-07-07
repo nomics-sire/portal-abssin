@@ -45,7 +45,12 @@ export default function Navbar() {
         <div className="flex gap-2">
           <Link href="/login">
             <button className="border border-red-700 text-red-700 px-4 py-2 rounded hover:bg-red-700 hover:text-white text-sm">
-              Login
+              Agent/Admin Login
+            </button>
+          </Link>
+          <Link href="/login">
+            <button className="border border-red-700 text-red-700 px-4 py-2 rounded hover:bg-red-700 hover:text-white text-sm">
+              User Login
             </button>
           </Link>
           {/* <button className="bg-red-700 text-white px-4 py-1 rounded hover:bg-red-800 text-sm">

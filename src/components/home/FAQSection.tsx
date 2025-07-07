@@ -35,25 +35,29 @@ const FAQSection: FC = () => {
 
   const faqs: { question: string; answer?: string }[] = [
     {
-      question: "Who can access the portal?",
+      question: "HOW DO I CREATE MY PERSONAL ABSSIN?",
       answer:
-        "The portal is accessible to three types of users: Agents, Staff, and Admins. Each role has access to specific features relevant to their responsibilities.",
+        "Go to the url: https://abssin.com/individual/create, and type in your BVN or NIN, enter your email and click on Continue. An OTP number will be sent to you immediately, then type in the numbers correctly and fill up the form in the next page. Or you can click on No ID if you do not have BVN\NIN.",
     },
     {
-      question: "How do I register a new school in the portal?",
-      answer: "You can register a school from the agent dashboard by filling out the required school information form.",
+      question: "I CANNOT REMEMBER MY ABSSIN?",
+      answer: "Go to the link: https://abssin.com/abssin/retrieve Input your phone number and it will send an OTP to your phone.Type in the OTP and submit, it will display your ABSSIN.",
     },
     {
-      question: "Can I assign teachers to specific classes or subjects?",
-      answer: "Yes, admin users have access to assign teachers based on class and subject structure in the portal.",
+      question: "I CANNOT REMEMBER MY PASSWORD?",
+      answer: "Go to:  https://abssin.com/forgot-password, To reset via phone number. Enter your ABSSIN Ensure phone number option is selected, An OTP will be sent to your registered phone number, Enter the received OTP And your new password, Click submit. To reset via email, Enter your ABSSIN Ensure email is selected And a reset link will be sent to your email Click on the received link to reset your password",
     },
     {
-      question: "Is the portal secure for storing student data?",
-      answer: "Yes, all data is encrypted and stored in compliance with security best practices and privacy regulations.",
+      question: "I NO LONGER HAVE ACCESS TO THE NUMBER I USED TO REGISTER MY BVN OR NIN, SO I CANNOT GET OTP.?",
+      answer: "go to: https://abiapay.com/individual/create, and select No ID, Enter your email and phone number, An email carrying a link would be sent to the email you inputted, and an OTP (One time Password) would be sent to the mobile number. Enter your OTP, and click the “Verify Account” button, You would be directed to a page to enter your other details.When you’re done entering your details, Click the “Submit” button, A message would be sent to your mobile number, carrying your ABSSIN.",
     },
     {
-      question: "What kind of data can staff members manage?",
-      answer: "Staff can manage student biodata, attendance, performance records, and class assignments.",
+      question: "WHEN I TAKE PICTURES, IT DOESN'T CAPTURE ?",
+      answer: "Ensure your phone allows camera access for the browser, also try using a different browser",
+    },
+    {
+      question: "WHAT CATEGORY DO I FALL INTO AS A CIVIL SERVANT ?",
+      answer: "This is not a mandatory field, kindly leave it blank.",
     },
   ];
 
