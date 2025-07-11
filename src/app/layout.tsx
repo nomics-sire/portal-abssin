@@ -18,7 +18,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ABSSIN Portal",
-  description: "Abia State Social Identity Management System",
+  description: "Abia State Social Identity Management System", 
+    icons: {
+    icon: [
+      { url: '/images/abssinlogo.png', sizes: '8x8', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({
