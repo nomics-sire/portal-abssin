@@ -19,7 +19,9 @@ const DependentAbssinForm: React.FC = () => {
   const { states, lgas } = useDropdownData();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
+
+  const router = useRouter();
   const [schools, setSchools] = useState<School[]>([]);
   const [formData, setFormData] = useState({
     first_name: "",
@@ -29,8 +31,8 @@ const router = useRouter();
     gender: "",
     lga: "",
     state_of_origin: "",
-    student_school_id: "", 
-    selected_school_id: "", 
+    student_school_id: "",
+    selected_school_id: "",
     guardian_phone_number: "",
     guardian_abssin: "",
     school_address: "",
@@ -90,18 +92,20 @@ const router = useRouter();
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
+    setSubmitting(true);
 
     const { data, error } = await request("user/create-infant", {
       method: "POST",
       body: formData,
     });
+    setSubmitting(false);
 
     if (error) {
       setErrorMessage(error);
     } else {
-      setSuccessMessage(data?.message );
-      router.push("/")
-    //   setSuccessMessage(data?.message || "Dependent ABSSIN registered successfully.");
+      setSuccessMessage(data?.message);
+      // router.push("/");
+      //   setSuccessMessage(data?.message || "Dependent ABSSIN registered successfully.");
     }
   };
 
@@ -158,7 +162,7 @@ const router = useRouter();
                   value={(formData as any)[field]}
                   onChange={handleChange}
                   className="w-full border px-3 py-2 text-sm rounded"
-                  required
+                  required={field !== "middle_name"}
                 />
               </div>
             );
@@ -310,9 +314,10 @@ const router = useRouter();
 
           <button
             type="submit"
+            disabled={submitting}
             className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer"
           >
-            {loading ? "Submitting..." : "Submit"}
+            {submitting ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
