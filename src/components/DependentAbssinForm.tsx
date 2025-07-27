@@ -146,7 +146,6 @@ const DependentAbssinForm: React.FC = () => {
                 : field.replace(/_/g, " ");
 
             const type = field === "birth_date" ? "date" : "text";
-
             return (
               <div key={field} className="flex flex-col">
                 <label
