@@ -210,6 +210,12 @@ export default function HomePage() {
                   "Quickly download or print your official ABSSIN slip by entering your ABSSIN number. The slip serves as proof of registration for verification and official use.",
                 icon: "/images/features/download-slip.png",
               },
+              {
+                title: "Update ABSSIN",
+                description:
+                  "Quickly update your ABSSIN by login in with your business or personal ABSSIN and password",
+                icon: "/images/features/download-slip.png",
+              },
             ].map((feature, index) => (
               <div
                 key={index}
@@ -247,6 +253,9 @@ export default function HomePage() {
                       break;
                     case "Download ABSSIN Slip":
                       href = "/abssin/download";
+                      break;
+                    case "Update ABSSIN":
+                      href = "/login";
                       break;
                     default:
                       href = "#";

@@ -30,9 +30,6 @@ export default function AdminAgentLogin() {
     if (error) {
       setError(error);
     } else {
-      localStorage.setItem("user_token", data.token);
-      localStorage.setItem("user_type", data.type);
-      localStorage.setItem("user_state_id", data.state_id);
       document.cookie = `user_token=${data.token}; path=/; secure; samesite=strict`;
       router.push("/user/dashboard");
     }
@@ -99,13 +96,6 @@ export default function AdminAgentLogin() {
                   required
                 />
 
-                {/* Only show icon if there's input */}
-                {/* {password && (
-                  <Eye
-                    className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer hover:text-red-700"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                  />
-                )} */}
               </div>
 
               <div className="text-right mt-1">
