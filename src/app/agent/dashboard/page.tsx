@@ -13,7 +13,7 @@ const UserDashboardPage = () => {
   useEffect(() => {
     const token = document.cookie
       .split("; ")
-      .find((row) => row.startsWith("user_token="))
+      .find((row) => row.startsWith("agent_token="))
       ?.split("=")[1];
 
     if (!token) return;
@@ -27,13 +27,14 @@ const UserDashboardPage = () => {
   }, []);
   return (
     <>
-      {userType === "INDIVIDUAL" ? (
+      {/* {userType === "INDIVIDUAL" ? (
         <IndividualProfile />
       ) : userType === "NON_INDIVIDUAL" ? (
         <NonIndividualProfile />
       ) : (
         <div className="text-center py-10 text-red-600">Unknown user type.</div>
-      )}
+      )} */}
+      Agent Dashboard
     </>
   );
 };

@@ -8,14 +8,15 @@ interface DecodedToken {
   exp: number;
 }
 
-export function useRequireAuth(redirectTo = '/login') {
+// Accept tokenName (e.g., 'user_token' or 'agent_token') and redirectTo path
+export function useRequireAuth(tokenName: 'user_token' | 'agent_token' = 'user_token', redirectTo = '/login') {
   const [authChecked, setAuthChecked] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const token = document.cookie
       .split('; ')
-      .find((row) => row.startsWith('user_token='))
+      .find((row) => row.startsWith(`${tokenName}=`))
       ?.split('=')[1];
 
     if (!token) {
@@ -28,7 +29,8 @@ export function useRequireAuth(redirectTo = '/login') {
       const isExpired = decoded.exp * 1000 < Date.now();
 
       if (isExpired) {
-        document.cookie = 'user_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        // Expire the token
+        document.cookie = `${tokenName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
         router.push(redirectTo);
         return;
       }
@@ -38,7 +40,7 @@ export function useRequireAuth(redirectTo = '/login') {
       console.error('Invalid token', err);
       router.push(redirectTo);
     }
-  }, [router, redirectTo]);
+  }, [router, redirectTo, tokenName]);
 
   return authChecked;
 }

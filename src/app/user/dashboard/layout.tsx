@@ -19,7 +19,8 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isAuthed = useRequireAuth();
+  const isAuthed = useRequireAuth('user_token', '/login');
+
   const pathname = usePathname();
 
   const [abssin, setAbssin] = useState("");

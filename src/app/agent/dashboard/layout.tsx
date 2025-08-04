@@ -19,7 +19,8 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isAuthed = useRequireAuth();
+const isAuthed = useRequireAuth('agent_token', '/admin-agent-login');
+
   const pathname = usePathname();
 
   const [abssin, setAbssin] = useState("");
@@ -28,7 +29,7 @@ export default function DashboardLayout({
   useEffect(() => {
     const token = document.cookie
       .split("; ")
-      .find((row) => row.startsWith("user_token="))
+      .find((row) => row.startsWith("agent_token="))
       ?.split("=")[1];
 
     if (token) {
@@ -54,22 +55,27 @@ export default function DashboardLayout({
 
   const navLinks = [
     {
-      name: "Profile",
+      name: "Create Business ABSSIN",
       href: "/user/dashboard/profile",
       icon: <User className="w-4 h-4" />,
     },
     {
-      name: "Print ABSSIN",
+      name: "Create Individual ABSSIN",
       href: "/user/dashboard/print-abssin",
       icon: <Printer className="w-4 h-4" />,
     },
+    // {
+    //   name: "Create Dependant ABSSIN",
+    //   href: "/user/dashboard/print-abssin",
+    //   icon: <Printer className="w-4 h-4" />,
+    // },
   ];
 
   const handleLogout = () => {
     document.cookie =
-      "user_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      "agent_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     localStorage.clear();
-    window.location.href = "/login";
+    window.location.href = "/admin-agent-login";
   };
 
   return (

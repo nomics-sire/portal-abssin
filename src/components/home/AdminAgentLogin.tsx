@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
-import { Eye } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminAgentLogin() {
@@ -19,7 +18,7 @@ export default function AdminAgentLogin() {
     e.preventDefault();
     setError("");
 
-    const { data, error } = await request("user/login", {
+    const { data, error } = await request("agent/login", {
       method: "POST",
       body: {
         email: abssin,
@@ -30,8 +29,8 @@ export default function AdminAgentLogin() {
     if (error) {
       setError(error);
     } else {
-      document.cookie = `user_token=${data.token}; path=/; secure; samesite=strict`;
-      router.push("/user/dashboard");
+      document.cookie = `agent_token=${data.token}; path=/; secure; samesite=strict`;
+      router.push("/agent/dashboard");
     }
   };
 
