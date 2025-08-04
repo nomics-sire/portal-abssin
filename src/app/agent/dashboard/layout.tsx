@@ -56,19 +56,19 @@ const isAuthed = useRequireAuth('agent_token', '/admin-agent-login');
   const navLinks = [
     {
       name: "Create Business ABSSIN",
-      href: "/user/dashboard/profile",
+      href: "/agent/dashboard/business-abssin",
       icon: <User className="w-4 h-4" />,
     },
     {
       name: "Create Individual ABSSIN",
-      href: "/user/dashboard/print-abssin",
+      href: "/agent/dashboard",
       icon: <Printer className="w-4 h-4" />,
     },
-    // {
-    //   name: "Create Dependant ABSSIN",
-    //   href: "/user/dashboard/print-abssin",
-    //   icon: <Printer className="w-4 h-4" />,
-    // },
+    {
+      name: "Create Dependant ABSSIN",
+      href: "/agent/dashboard/dependant-abssin",
+      icon: <Printer className="w-4 h-4" />,
+    },
   ];
 
   const handleLogout = () => {
