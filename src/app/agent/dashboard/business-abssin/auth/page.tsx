@@ -29,7 +29,7 @@ const BusinessAuthForm = () => {
     if (data?.status) {
       setVerified(true);
       setMessage("Token verified successfully. You can now continue.");
-      router.push("/agent/dasboard/business-abssin/details");
+      router.push("/agent/dashboard/business-abssin/details");
     } else {
       setVerified(false);
       setMessage("Invalid token.");

@@ -3,7 +3,7 @@
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Loader2, LogOut, Printer, User, Tag, BadgeInfo } from "lucide-react";
+import { Loader2, LogOut, Printer, User, Tag } from "lucide-react";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
@@ -11,6 +11,8 @@ import Image from "next/image";
 interface DecodedToken {
   state_id: string;
   type: string;
+  user_cat: string;
+  email: string;
   exp: number;
 }
 
@@ -19,11 +21,11 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-const isAuthed = useRequireAuth('agent_token', '/admin-agent-login');
+  const isAuthed = useRequireAuth("agent_token", "/admin-agent-login");
 
   const pathname = usePathname();
 
-  const [abssin, setAbssin] = useState("");
+  const [email, setEmail] = useState("");
   const [userType, setUserType] = useState("");
 
   useEffect(() => {
@@ -35,9 +37,9 @@ const isAuthed = useRequireAuth('agent_token', '/admin-agent-login');
     if (token) {
       try {
         const decoded = jwtDecode<DecodedToken>(token);
-        setAbssin(decoded.state_id);
+        setEmail(decoded.email);
         setUserType(
-          decoded.type === "NON_INDIVIDUAL" ? "Business" : decoded.type
+          decoded.user_cat
         );
       } catch (error) {
         console.error("Failed to decode token:", error);
@@ -55,17 +57,17 @@ const isAuthed = useRequireAuth('agent_token', '/admin-agent-login');
 
   const navLinks = [
     {
-      name: "Create Business ABSSIN",
+      name: "Business ABSSIN",
       href: "/agent/dashboard/business-abssin",
       icon: <User className="w-4 h-4" />,
     },
     {
-      name: "Create Individual ABSSIN",
+      name: "Individual ABSSIN",
       href: "/agent/dashboard",
       icon: <Printer className="w-4 h-4" />,
     },
     {
-      name: "Create Dependant ABSSIN",
+      name: "Dependant ABSSIN",
       href: "/agent/dashboard/dependant-abssin",
       icon: <Printer className="w-4 h-4" />,
     },
@@ -120,7 +122,7 @@ const isAuthed = useRequireAuth('agent_token', '/admin-agent-login');
           <div className="flex gap-6 items-center text-sm text-gray-700">
             <div className="flex items-center gap-1">
               <User className="w-4 h-4 text-red-700" />
-              <span className="font-medium">{abssin}</span>
+              <span className="font-medium">{email}</span>
             </div>
             <div className="flex items-center gap-1">
               <Tag className="w-4 h-4 text-red-700" />

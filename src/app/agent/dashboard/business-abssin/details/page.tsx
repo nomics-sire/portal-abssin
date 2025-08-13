@@ -1,18 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDropdownData } from "@/hooks/useDropdownData";
 import { useRouter } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
+import { jwtDecode } from "jwt-decode";
 
 const BusinessDetails = () => {
   const { states, lgas, sectors, taxStations, cdnCategories, businessTypes } =
     useDropdownData();
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState("");
+
+  
 
   const { request, loading } = useApi();
   const router = useRouter();
+
+  interface DecodedToken {
+  email: string;
+}
 
   const [form, setForm] = useState({
     coy_name: "",
@@ -38,7 +46,28 @@ const BusinessDetails = () => {
     state: "",
     tax_office: "",
     password: "",
+    enter_by: email,
   });
+
+  console.log("email", email);
+  
+
+  useEffect(() => {
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("agent_token="))
+      ?.split("=")[1];
+
+    if (token) {
+      try {
+        const decoded = jwtDecode<DecodedToken>(token);
+        setEmail(decoded.email);
+ 
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+      }
+    }
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

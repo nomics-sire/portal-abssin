@@ -29,7 +29,6 @@ export function useRequireAuth(tokenName: 'user_token' | 'agent_token' = 'user_t
       const isExpired = decoded.exp * 1000 < Date.now();
 
       if (isExpired) {
-        // Expire the token
         document.cookie = `${tokenName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
         router.push(redirectTo);
         return;
