@@ -214,7 +214,7 @@ export default function HomePage() {
                 title: "Update ABSSIN",
                 description:
                   "Quickly update your ABSSIN by login in with your business or personal ABSSIN and password",
-                icon: "/images/features/download-slip.png",
+                icon: "/images/features/updated.png",
               },
             ].map((feature, index) => (
               <div

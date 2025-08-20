@@ -1,15 +1,27 @@
 "use client";
 
-import { useState, FC } from "react";
+import { FC, useState } from "react";
+
+interface FAQ {
+  question: string;
+  answer?:
+    | string
+    | { text?: string; list?: string[]; listType?: "bullet" | "number" };
+}
 
 interface FAQItemProps {
-  faq: { question: string; answer?: string };
+  faq: FAQ;
   index: number;
   activeIndex: number | null;
   setActiveIndex: (index: number | null) => void;
 }
 
-const FAQItem: FC<FAQItemProps> = ({ faq, index, activeIndex, setActiveIndex }) => {
+const FAQItem: FC<FAQItemProps> = ({
+  faq,
+  index,
+  activeIndex,
+  setActiveIndex,
+}) => {
   const isOpen = activeIndex === index;
 
   return (
@@ -22,49 +34,135 @@ const FAQItem: FC<FAQItemProps> = ({ faq, index, activeIndex, setActiveIndex }) 
         <span className="text-gray-500 text-xl">{isOpen ? "−" : "+"}</span>
       </button>
       {isOpen && faq.answer && (
-        <p className="text-sm text-gray-600 pl-1 pb-3 border-b border-gray-200">
-          {faq.answer}
-        </p>
+        <div className="text-sm text-gray-600 pl-1 pb-3 border-b border-gray-200 space-y-2">
+          {typeof faq.answer === "string" ? (
+            <p>{faq.answer}</p>
+          ) : (
+            <>
+              {faq.answer.text && <p>{faq.answer.text}</p>}
+              {faq.answer.list && (
+                <ul
+                  className={`${
+                    faq.answer.listType === "number"
+                      ? "list-decimal"
+                      : "list-disc"
+                  } pl-6 space-y-1`}
+                >
+                  {faq.answer.list.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+        </div>
       )}
     </div>
   );
 };
 
 const FAQSection: FC = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const faqs: { question: string; answer?: string }[] = [
+  const faqs: FAQ[] = [
     {
-      question: "HOW DO I CREATE MY PERSONAL ABSSIN?",
+      question: "What is ABSSIN?",
       answer:
-        "Go to the url: https://abssin.com/individual/create, and type in your BVN or NIN, enter your email and click on Continue. An OTP number will be sent to you immediately, then type in the numbers correctly and fill up the form in the next page. Or you can click on No ID if you do not have BVN/NIN.",
+        "ABSSIN stands for Abia State Social Identification Number. It is a unique identification number issued to citizens and businesses in Abia state for streamlined access to government services and benefits.",
     },
     {
-      question: "I CANNOT REMEMBER MY ABSSIN?",
-      answer: "Go to the link: https://abssin.com/abssin/retrieve Input your phone number and it will send an OTP to your phone.Type in the OTP and submit, it will display your ABSSIN.",
+      question: "Is ABSSIN mandatory?",
+      answer: {
+        text: "Yes. ABSSIN is essential for:",
+        list: [
+          "Interacting with state government agencies",
+          "Accessing public services",
+          "School enrollment",
+        ],
+        listType: "bullet",
+      },
     },
     {
-      question: "I CANNOT REMEMBER MY PASSWORD?",
-      answer: "Go to:  https://abssin.com/forgot-password, To reset via phone number. Enter your ABSSIN Ensure phone number option is selected, An OTP will be sent to your registered phone number, Enter the received OTP And your new password, Click submit. To reset via email, Enter your ABSSIN Ensure email is selected And a reset link will be sent to your email Click on the received link to reset your password",
+      question: "How much does it cost to get an ABSSIN?",
+      answer: "The ABSSIN is free of charge to all citizens.",
     },
     {
-      question: "I NO LONGER HAVE ACCESS TO THE NUMBER I USED TO REGISTER MY BVN OR NIN, HOW CAN I GET OTP ?",
-      answer: "go to: https://abiapay.com/individual/create, and select No ID, Enter your email and phone number, An email carrying a link would be sent to the email you inputted, and an OTP (One time Password) would be sent to the mobile number. Enter your OTP, and click the “Verify Account” button, You would be directed to a page to enter your other details.When you’re done entering your details, Click the “Submit” button, A message would be sent to your mobile number, carrying your ABSSIN.",
+      question: "What are the benefits of ABSSIN?",
+      answer: {
+        text: "Having an ABSSIN enables you to:",
+        list: [
+          "Access a wide range of government services",
+          "Qualify for government grants",
+          "Apply for state-sponsored job opportunities",
+          "Participate in scholarship programs",
+          "Enroll in digital and tech training initiatives",
+        ],
+        listType: "bullet",
+      },
     },
     {
-      question: "WHEN I TAKE PICTURES, IT DOESN'T CAPTURE ?",
-      answer: "Ensure your phone allows camera access for the browser, also try using a different browser",
+      question: "How do I create or register for my ABSSIN?",
+      answer: {
+        text: "To create your ABSSIN:",
+        list: [
+          "On the portal home page.",
+          "Click on “Create Personal ABSSIN.”",
+          "Enter your BVN or NIN and your email address, then click Submit.",
+          "An OTP (One-Time Password) will be sent to your phone.",
+          "Enter the OTP to complete registration.",
+        ],
+        listType: "number",
+      },
     },
     {
-      question: "WHAT CATEGORY DO I FALL INTO AS A CIVIL SERVANT ?",
-      answer: "This is not a mandatory field, kindly leave it blank.",
+      question: "I don't have a BVN or NIN can I still get an ABSSIN?",
+      answer:
+        "Yes. Select the “Create ABSSIN with No ID” option on the portal and fill in your details manually.",
+    },
+    {
+      question: "How do I register my child (dependent) for an ABSSIN?",
+      answer:
+        "A parent or guardian can register a dependent by selecting the “Create Dependent ABSSIN” option and providing the child’s details.",
+    },
+    {
+      question: "How do I register for ABSSIN Using the USSD code?",
+      answer: {
+        text: "Dial *347*458# (using the phone number linked to your NIN or BVN). Follow the on-screen prompts to:",
+        list: [
+          "Create My ABSSIN – Start your registration process.",
+          "Enter NIN to Create ABSSIN – Input your NIN to generate your ABSSIN.",
+          "Retrieve My ABSSIN – Access your ABSSIN if you’ve already registered.",
+        ],
+        listType: "bullet",
+      },
+    },
+    {
+      question: "I completed registration but didn't get my ABSSIN?",
+      answer: {
+        list: [
+          "Check your SMS inbox and email (including spam folder) for a message from ABSSIN.",
+          "If you still did not receive it, use the “Retrieve ABSSIN” feature on the portal.",
+        ],
+        listType: "bullet",
+      },
+    },
+    {
+      question: "How do I retrieve my ABSSIN?",
+      answer: {
+        list: [
+          "On the portal home page, click “Retrieve ABSSIN.”",
+          "Enter your phone number or email address.",
+          "An OTP will be sent to you.",
+          "Enter the OTP and your ABSSIN will be displayed.",
+        ],
+        listType: "number",
+      },
     },
   ];
 
   return (
     <section className="bg-white py-20 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-
         <div>
           <span className="inline-block bg-red-100 text-red-700 text-xs font-semibold px-4 py-1 rounded-full mb-4">
             Questions & Answers
@@ -73,30 +171,47 @@ const FAQSection: FC = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-gray-600 text-sm mb-8">
-            Porta gravida elit convallis in eu. Venenatis euismod libero non sed in dolor feugiat.
+            Porta gravida elit convallis in eu. Venenatis euismod libero non sed
+            in dolor feugiat.
           </p>
 
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <div className="text-red-600">
-                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2" />
                 </svg>
               </div>
               <div>
                 <p className="font-medium text-gray-900">Live Chat Support</p>
-                <p className="text-sm text-gray-600">Get real-time assistance from our support team</p>
+                <p className="text-sm text-gray-600">
+                  Get real-time assistance from our support team
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <div className="text-red-600">
-                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.2 1.52.57 2.98 1.1 4.35a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45 19.86 19.86 0 0 1 4.35 1.1A2 2 0 0 1 22 16.92z" />
                 </svg>
               </div>
               <div>
                 <p className="font-medium text-gray-900">Contact Us</p>
-                <p className="text-sm text-gray-600">Need further help? Reach out to us</p>
+                <p className="text-sm text-gray-600">
+                  Need further help? Reach out to us
+                </p>
               </div>
             </div>
           </div>
