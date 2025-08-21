@@ -6,7 +6,13 @@ interface FAQ {
   question: string;
   answer?:
     | string
-    | { text?: string; list?: string[]; listType?: "bullet" | "number" };
+    | { text?: string; list?: FAQListItem[]; listType?: "bullet" | "number" };
+}
+
+interface FAQListItem {
+  text: string;
+  list?: FAQListItem[]; // supports nested sub-items
+  listType?: "bullet" | "number";
 }
 
 interface FAQItemProps {
@@ -15,6 +21,30 @@ interface FAQItemProps {
   activeIndex: number | null;
   setActiveIndex: (index: number | null) => void;
 }
+
+const RenderList: FC<{
+  items: FAQListItem[];
+  listType?: "bullet" | "number";
+}> = ({ items, listType }) => {
+  const ListTag = listType === "number" ? "ol" : "ul";
+  const listClass =
+    listType === "number"
+      ? "list-decimal pl-6 space-y-1"
+      : "list-disc pl-6 space-y-1";
+
+  return (
+    <ListTag className={listClass}>
+      {items.map((item, i) => (
+        <li key={i}>
+          {item.text}
+          {item.list && (
+            <RenderList items={item.list} listType={item.listType} />
+          )}
+        </li>
+      ))}
+    </ListTag>
+  );
+};
 
 const FAQItem: FC<FAQItemProps> = ({
   faq,
@@ -41,17 +71,10 @@ const FAQItem: FC<FAQItemProps> = ({
             <>
               {faq.answer.text && <p>{faq.answer.text}</p>}
               {faq.answer.list && (
-                <ul
-                  className={`${
-                    faq.answer.listType === "number"
-                      ? "list-decimal"
-                      : "list-disc"
-                  } pl-6 space-y-1`}
-                >
-                  {faq.answer.list.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
+                <RenderList
+                  items={faq.answer.list}
+                  listType={faq.answer.listType}
+                />
               )}
             </>
           )}
@@ -75,9 +98,9 @@ const FAQSection: FC = () => {
       answer: {
         text: "Yes. ABSSIN is essential for:",
         list: [
-          "Interacting with state government agencies",
-          "Accessing public services",
-          "School enrollment",
+          { text: "Interacting with state government agencies" },
+          { text: "Accessing public services" },
+          { text: "School enrollment" },
         ],
         listType: "bullet",
       },
@@ -91,11 +114,11 @@ const FAQSection: FC = () => {
       answer: {
         text: "Having an ABSSIN enables you to:",
         list: [
-          "Access a wide range of government services",
-          "Qualify for government grants",
-          "Apply for state-sponsored job opportunities",
-          "Participate in scholarship programs",
-          "Enroll in digital and tech training initiatives",
+          { text: "Access a wide range of government services" },
+          { text: "Qualify for government grants" },
+          { text: "Apply for state-sponsored job opportunities" },
+          { text: "Participate in scholarship programs" },
+          { text: "Enroll in digital and tech training initiatives" },
         ],
         listType: "bullet",
       },
@@ -105,11 +128,13 @@ const FAQSection: FC = () => {
       answer: {
         text: "To create your ABSSIN:",
         list: [
-          "On the portal home page.",
-          "Click on “Create Personal ABSSIN.”",
-          "Enter your BVN or NIN and your email address, then click Submit.",
-          "An OTP (One-Time Password) will be sent to your phone.",
-          "Enter the OTP to complete registration.",
+          { text: "On the portal home page." },
+          { text: "Click on “Create Personal ABSSIN.”" },
+          {
+            text: "Enter your BVN or NIN and your email address, then click Submit.",
+          },
+          { text: "An OTP (One-Time Password) will be sent to your phone." },
+          { text: "Enter the OTP to complete registration." },
         ],
         listType: "number",
       },
@@ -129,9 +154,15 @@ const FAQSection: FC = () => {
       answer: {
         text: "Dial *347*458# (using the phone number linked to your NIN or BVN). Follow the on-screen prompts to:",
         list: [
-          "Create My ABSSIN – Start your registration process.",
-          "Enter NIN to Create ABSSIN – Input your NIN to generate your ABSSIN.",
-          "Retrieve My ABSSIN – Access your ABSSIN if you’ve already registered.",
+          {
+            text: "Create My ABSSIN – Start your registration process.",
+          },
+          {
+            text: "Enter NIN to Create ABSSIN – Input your NIN to generate your ABSSIN.",
+          },
+          {
+            text: "Retrieve My ABSSIN – Access your ABSSIN if you’ve already registered.",
+          },
         ],
         listType: "bullet",
       },
@@ -140,8 +171,12 @@ const FAQSection: FC = () => {
       question: "I completed registration but didn't get my ABSSIN?",
       answer: {
         list: [
-          "Check your SMS inbox and email (including spam folder) for a message from ABSSIN.",
-          "If you still did not receive it, use the “Retrieve ABSSIN” feature on the portal.",
+          {
+            text: "Check your SMS inbox and email (including spam folder) for a message from ABSSIN.",
+          },
+          {
+            text: "If you still did not receive it, use the “Retrieve ABSSIN” feature on the portal.",
+          },
         ],
         listType: "bullet",
       },
@@ -150,13 +185,142 @@ const FAQSection: FC = () => {
       question: "How do I retrieve my ABSSIN?",
       answer: {
         list: [
-          "On the portal home page, click “Retrieve ABSSIN.”",
-          "Enter your phone number or email address.",
-          "An OTP will be sent to you.",
-          "Enter the OTP and your ABSSIN will be displayed.",
+          { text: "On the portal home page, click “Retrieve ABSSIN.”" },
+          { text: "Enter your phone number or email address." },
+          { text: "An OTP will be sent to you." },
+          { text: "Enter the OTP and your ABSSIN will be displayed." },
         ],
         listType: "number",
       },
+    },
+    {
+      question: "I forgot my password, how do I log in?",
+      answer: {
+        listType: "number",
+        list: [
+          { text: "On the portal home page" },
+          { text: "Click User Login and select Forgotten Password." },
+          { text: "Enter your ABSSIN." },
+          {
+            text: "If using phone number:",
+            listType: "bullet",
+            list: [
+              { text: "An OTP will be sent to your registered phone." },
+              { text: "Enter the OTP, create a new password, and confirm it." },
+            ],
+          },
+          {
+            text: "If using email:",
+            listType: "bullet",
+            list: [
+              { text: "A reset link will be sent to your registered email." },
+              {
+                text: "Click the link and follow instructions to set a new password.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      question:
+        "What if I no longer have access to the phone number linked to my BVN/NIN?",
+      answer: {
+        text: "If you cannot receive an OTP:",
+        list: [
+          { text: "On the portal home page select “No ID” option." },
+          { text: "Enter your new email and phone number." },
+          { text: "An OTP will be sent to your phone and a verification link to your email." },
+          { text: "Verify your account, fill in your details, and submit." },
+          { text: "You will receive a confirmation message along with your ABSSIN." },
+        ],
+        listType: "number",
+      },
+    },
+    {
+      question:
+        "I take pictures but it doesn't capture",
+      answer: {
+   
+        list: [
+          { text: "Ensure your phone allows camera access for your browser." },
+          { text: "If the issue persists, try using a different browser." },
+        ],
+        listType: "bullet",
+      },
+    },
+        {
+      question: "why am I not receiving an OTP?",
+      answer:
+        "This may happen if the phone number linked to your BVN or NIN is inactive. You can generate your ABSSIN without BVN or NIN by selecting “Create ABSSIN without ID.”",
+    },
+        {
+      question:
+        "How does a business register for an ABSSIN?",
+      answer: {
+   text:"You must first create a Personal ABSSIN before creating a Business ABSSIN. steps:",
+        list: [
+          { text: "On the portal home page." },
+          { text: "Click on “Create Business ABSSIN.”" },
+          { text: "Enter your Personal ABSSIN." },
+          { text: "Fill in the required information and click Submit." },
+        ],
+        listType: "number",
+      },
+    },
+      {
+      question:
+        "How do I get a copy of my ABSSIN SLIP?",
+      answer: {
+   
+        list: [
+          { text: "After logging into the portal, use the “Generate ABSSIN Slip” feature." },
+          { text: "Enter your ABSSIN to generate and print your official slip." },
+        ],
+        listType: "bullet",
+      },
+    },
+           {
+      question: "I made a mistake during registration, how can I correct my information?",
+      answer:
+        "Please contact the ABSSIN support team or visit a designated registration center for assistance with data correction.",
+    },
+       {
+      question:
+        "I am an agent/MDA staff, how do I login to the portal?",
+      answer: {
+   
+        list: [
+          { text: "Agents and MDA Staff must use the “User Roles Login” section." },
+          { text: "Do not use the public registration links." },
+          { text: "You will need the unique username and password provided by the ABSSIN administration." },
+        ],
+        listType: "bullet",
+      },
+    },
+       {
+      question:
+        "what browsers are supported by the ABSSIN portal?",
+      answer: {
+        text: "The portal works best on modern browsers such as:",
+        list: [
+          { text: "Google Chrome" },
+          { text: "Mozilla Firefox" },
+          { text: "Microsoft Edge" },
+          { text: "Safari" },
+        ],
+        listType: "bullet",
+      },
+    },
+               {
+      question: "I am experiencing a technical issue with the website",
+      answer:
+        "Report any technical glitches (e.g., error messages, pages not loading) to the ABSSIN support team via the Contact Us section on the portal.",
+    },
+               {
+      question: "Where is the ABSSIN office located?",
+      answer:
+        "The physical office is located at the Ministry of Budget and Planning, Abia State. For the exact address and phone number, please see the Contact Us section of the ABSSIN website.",
     },
   ];
 
